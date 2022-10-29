@@ -1,0 +1,34 @@
+{
+  "deno.enable": true,
+  "deno.lint": true,
+
+  "[javascript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+
+  "editor.formatOnSave": true,
+  "deno.inlayHints.enumMemberValues.enabled": true,
+  "deno.inlayHints.functionLikeReturnTypes.enabled": false,
+  "deno.inlayHints.parameterTypes.enabled": true,
+  "deno.inlayHints.variableTypes.enabled": false,
+  "deno.suggest.imports.hosts": {
+    "https://deno.land": true,
+    "https://x.nest.land": true,
+    "https://crux.land": true
+  },
+
+  // "deno.codeLens.implementations": true,
+  // "deno.codeLens.references": true,
+  // "deno.codeLens.referencesAllFunctions": true,
+  "deno.codeLens.test": true,
+  "deno.testing.enable": true
+}
