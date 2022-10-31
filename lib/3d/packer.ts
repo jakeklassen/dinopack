@@ -30,6 +30,22 @@ export class Packer {
     return this.#unfitItems;
   }
 
+  public get bestFittedBin(): Bin | undefined {
+    // If any items didn't fit, we have no bin
+    if (this.unfitItems.length > 0) {
+      return undefined;
+    }
+
+    for (const bin of this.bins) {
+      // Get the first bin that has any items
+      if (bin.items.length > 0) {
+        return bin;
+      }
+    }
+
+    return undefined;
+  }
+
   addBin(bin: Bin) {
     this.#bins.push(bin);
   }
@@ -189,6 +205,6 @@ export class Packer {
       this.#items = this.packToBin(bin, this.items);
     }
 
-    return null;
+    return this.bestFittedBin;
   }
 }

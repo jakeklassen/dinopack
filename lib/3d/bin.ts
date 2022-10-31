@@ -177,4 +177,15 @@ export class Bin {
 
     return `Bin:${this.name} (WxHxD = ${dimension}, MaxWg. = ${this.maxWeight})`;
   }
+
+  public toJSON() {
+    return {
+      name: this.name,
+      width: this.width,
+      height: this.height,
+      depth: this.depth,
+      maxWeight: this.maxWeight,
+      items: this.items,
+    };
+  }
 }

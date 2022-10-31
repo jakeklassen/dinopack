@@ -156,6 +156,19 @@ export class Item {
 
     return `${name} (${this.rotationType} = ${dimension}, Wg. = $this.#weight)`;
   }
+
+  public toJSON() {
+    return {
+      name: this.#name,
+      width: this.#width,
+      height: this.#height,
+      depth: this.#depth,
+      weight: this.#weight,
+      allowedRotation: this.#allowedRotation,
+      rotationType: this.#rotationType,
+      position: this.#position,
+    };
+  }
 }
 
 export const rectIntersect = (
