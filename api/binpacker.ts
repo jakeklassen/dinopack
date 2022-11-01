@@ -1,4 +1,4 @@
-import { serve } from "https://deno.land/std@0.161.0/http/server.ts";
+import { serve } from "std/http/server.ts";
 import { Bin } from "../lib/3d/bin.ts";
 import { Item } from "../lib/3d/item.ts";
 import { Packer } from "../lib/3d/packer.ts";
