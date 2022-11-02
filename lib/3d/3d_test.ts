@@ -85,6 +85,20 @@ const tests = [
     },
   },
   {
+    name: "Test that 0 items fit due to max weight.",
+    bins: [new Bin("1. Le petite box", 296, 296, 8, 1000)],
+    items: [
+      new Item("Item 1", 250, 250, 2, 2000),
+      new Item("Item 2", 250, 250, 2, 2000),
+      new Item("Item 3", 250, 250, 2, 2000),
+    ],
+    expectation: function (packer: Packer) {
+      return (
+        packer.bins[0].items.length === 0 && packer.unfitItems.length === 3
+      );
+    },
+  },
+  {
     name: "1 bin with 7 items fit into.",
     bins: [new Bin("Bin 1", 220, 160, 100, 110)],
     items: [
