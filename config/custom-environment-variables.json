@@ -1,0 +1,10 @@
+{
+  "upstash": {
+    "redisRestUrl": "UPSTASH_REDIS_REST_URL",
+    "redisRestToken": "UPSTASH_REDIS_REST_TOKEN"
+  },
+  "rateLimit": {
+    "limit": "RATE_LIMIT",
+    "window": "RATE_LIMIT_WINDOW_SECONDS"
+  }
+}

@@ -1,52 +1,20 @@
 import config from "config";
-import { Function, Object, String } from "ts-toolbelt";
-
-export type AppConfig = {
-  upstash: {
-    redisRestUrl: string;
-    redisRestToken: string;
-  };
-};
+import toolbelt from "ts-toolbelt";
+import { AppConfig } from "./config/types.ts";
+import { DottedPaths } from "./types/dotted-paths.ts";
 
 declare module "config" {
   interface IConfig {
     getTyped: <
-      Path extends DotNestedKeys<AppConfig>,
+      Path extends DottedPaths<AppConfig>,
     >(
-      path: Function.Narrow<Path>,
-    ) => Object.Path<AppConfig, String.Split<Path, ".">>;
+      path: toolbelt.Function.Narrow<Path>,
+    ) => toolbelt.Object.Path<AppConfig, toolbelt.String.Split<Path, ".">>;
   }
 }
 
-config.getTyped("upstash.redisRestUrl");
+const prototype: config.IConfig = Object.getPrototypeOf(config);
+// It's still the same `config.get`. The real trick here was with augmenting the type definition for `config`.
+prototype.getTyped = config.get as unknown as typeof prototype.getTyped;
 
-// ==============================
-
-type User = {
-  name: string;
-  age: number;
-  friends: User[];
-};
-
-declare const user: User;
-
-declare const appConfig: AppConfig;
-
-type DotPrefix<T extends string> = T extends "" ? "" : `.${T}`;
-
-type DotNestedKeys<T> = (T extends Record<string, unknown> ? {
-    [K in Exclude<keyof T, symbol>]:
-      | `${K}${DotPrefix<DotNestedKeys<T[K]>>}`
-      | K;
-  }[Exclude<keyof T, symbol>]
-  : "") extends infer D ? Extract<D, string> : never;
-
-declare const getTyped: <
-  Obj extends Record<string, unknown>,
-  Path extends DotNestedKeys<Obj>,
->(
-  obj: Function.Narrow<Obj>,
-  path: Function.Narrow<Path>,
-) => Object.Path<typeof obj, String.Split<Path, ".">>;
-
-getTyped(appConfig, "upstash");
+export { config };
