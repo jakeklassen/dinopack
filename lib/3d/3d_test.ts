@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std@0.161.0/testing/asserts.ts";
+import { assertEquals } from "std/testing/asserts.ts";
 import { Bin } from "./bin.ts";
 import { Item } from "./item.ts";
 import { Packer } from "./packer.ts";
