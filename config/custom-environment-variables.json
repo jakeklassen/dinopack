@@ -1,4 +1,6 @@
 {
+  "databaseUrl": "DATABASE_URL",
+  "ipinfoToken": "IPINFO_TOKEN",
   "upstash": {
     "redisRestUrl": "UPSTASH_REDIS_REST_URL",
     "redisRestToken": "UPSTASH_REDIS_REST_TOKEN"

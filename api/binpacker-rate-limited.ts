@@ -1,11 +1,12 @@
-import "std/dotenv/load.ts";
 import { MultiRegionRatelimit } from "npm:@upstash/ratelimit@0.1.5";
 import { Redis } from "npm:@upstash/redis@1.16.0";
-import { ConnInfo, serve } from "std/http/server.ts";
+import "std/dotenv/load.ts";
+import { serve } from "std/http/server.ts";
+import { config } from "../config.ts";
 import { Bin } from "../lib/3d/bin.ts";
 import { Item } from "../lib/3d/item.ts";
 import { Packer } from "../lib/3d/packer.ts";
-import { config } from "../config.ts";
+import { getRemoteAddress } from "../lib/utils/get-remote-address.ts";
 
 const rateLimit = new MultiRegionRatelimit({
   redis: [
@@ -19,17 +20,6 @@ const rateLimit = new MultiRegionRatelimit({
     `${config.getTyped("rateLimit.window")} s`,
   ),
 });
-
-function assertIsNetAddr(addr: Deno.Addr): asserts addr is Deno.NetAddr {
-  if (!["tcp", "udp"].includes(addr.transport)) {
-    throw new Error("Not a network address");
-  }
-}
-
-function getRemoteAddress(connInfo: ConnInfo): Deno.NetAddr {
-  assertIsNetAddr(connInfo.remoteAddr);
-  return connInfo.remoteAddr;
-}
 
 serve(async (request, connInfo) => {
   const { hostname } = getRemoteAddress(connInfo);
