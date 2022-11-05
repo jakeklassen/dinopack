@@ -2,12 +2,11 @@ import "std/dotenv/load.ts";
 import { serve } from "std/http/server.ts";
 import { z } from "zod";
 import { config } from "../config.ts";
+import { PrismaClient } from "../generated/client/deno/edge.ts";
 import { Bin } from "../lib/3d/bin.ts";
 import { Item } from "../lib/3d/item.ts";
 import { Packer } from "../lib/3d/packer.ts";
-import { getRemoteAddress } from "../lib/utils/get-remote-address.ts";
 import { IpInfoResponse } from "../types/ipinfo.ts";
-import { PrismaClient } from "../generated/client/deno/edge.ts";
 
 const prisma = new PrismaClient();
 
@@ -41,6 +40,12 @@ const packSchema = z.object({
 });
 
 serve(async (request, connInfo) => {
+  const { ip } = await fetch("https://ipinfo.io", {
+    headers: {
+      authorization: `Bearer ${config.getTyped("ipinfoToken")}`,
+    },
+  }).then((res) => res.json() as Promise<IpInfoResponse>);
+
   if (request.method === "GET" && request.url.endsWith("/health")) {
     return new Response("OK");
   }
@@ -49,19 +54,15 @@ serve(async (request, connInfo) => {
     return new Response("Method not allowed", { status: 405 });
   }
 
-  const { hostname } = getRemoteAddress(connInfo);
-
-  console.log(`Received request from ${hostname}`);
-
-  if (!['"localhost", "127.0.0.1"'].includes(hostname)) {
-    const ipinfo = await fetch("https://ipinfo.io", {
-      headers: {
-        authorization: `Bearer ${config.getTyped("ipinfoToken")}`,
+  await prisma.ip.upsert({
+    where: { ip },
+    update: {
+      requests: {
+        increment: 1,
       },
-    }).then((res) => res.json() as Promise<IpInfoResponse>);
-
-    console.log(ipinfo);
-  }
+    },
+    create: { ip },
+  });
 
   const payload = await request.json();
 
