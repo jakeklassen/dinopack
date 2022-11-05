@@ -1,7 +1,6 @@
 import "std/dotenv/load.ts";
 import { serve } from "std/http/server.ts";
 import { z } from "zod";
-import { config } from "../config.ts";
 import { PrismaClient } from "../generated/client/deno/edge.ts";
 import { Bin } from "../lib/3d/bin.ts";
 import { Item } from "../lib/3d/item.ts";
@@ -39,10 +38,10 @@ const packSchema = z.object({
   ),
 });
 
-serve(async (request, connInfo) => {
+serve(async (request) => {
   const { ip } = await fetch("https://ipinfo.io", {
     headers: {
-      authorization: `Bearer ${config.getTyped("ipinfoToken")}`,
+      authorization: `Bearer ${Deno.env.get("IPINFO_TOKEN")}`,
     },
   }).then((res) => res.json() as Promise<IpInfoResponse>);
 
