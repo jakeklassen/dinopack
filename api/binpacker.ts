@@ -43,7 +43,7 @@ const packSchema = z.object({
   ),
 });
 
-const LOADER_FILE = Deno.readFileSync(
+const LOADER_FILE = await Deno.readFile(
   "./public/loaderio-d4bbbe4b1594a62dae3a00dbee1ee64b.txt",
 );
 
