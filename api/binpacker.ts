@@ -11,7 +11,6 @@ import * as postgres from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 
 const databaseUrl = Deno.env.get("DATABASE_URL")!;
 const pool = new postgres.Pool(databaseUrl, 3, true);
-const connection = await pool.connect();
 
 // const prisma = new PrismaClient();
 
@@ -60,6 +59,9 @@ serve(async (request, connInfo) => {
   if (request.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
   }
+
+  // Grab a connection from the database pool
+  const connection = await pool.connect();
 
   try {
     await connection.queryArray(
