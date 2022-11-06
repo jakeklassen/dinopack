@@ -104,6 +104,9 @@ serve(async (request, connInfo) => {
 
     return new Response(JSON.stringify(bin), {
       status: 200,
+      headers: {
+        "content-type": "application/json",
+      },
     });
   } catch (error) {
     return new Response(error.message, { status: 400 });
