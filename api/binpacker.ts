@@ -43,6 +43,10 @@ const packSchema = z.object({
   ),
 });
 
+const LOADER_FILE = Deno.readFileSync(
+  "./public/loaderio-d4bbbe4b1594a62dae3a00dbee1ee64b.txt",
+);
+
 serve(async (request, connInfo) => {
   // const { ip } = await fetch("https://ipinfo.io", {
   //   headers: {
@@ -58,7 +62,7 @@ serve(async (request, connInfo) => {
     }
 
     if (request.url.includes("loaderio-d4bbbe4b1594a62dae3a00dbee1ee64b.txt")) {
-      return new Response("loaderio-d4bbbe4b1594a62dae3a00dbee1ee64b");
+      return new Response(LOADER_FILE);
     }
   }
 
