@@ -52,8 +52,14 @@ serve(async (request, connInfo) => {
 
   const { hostname } = getRemoteAddress(connInfo);
 
-  if (request.method === "GET" && request.url.endsWith("/health")) {
-    return new Response("OK");
+  if (request.method === "GET") {
+    if (request.url.endsWith("/health")) {
+      return new Response("OK");
+    }
+
+    if (request.url.includes("loaderio-d4bbbe4b1594a62dae3a00dbee1ee64b.txt")) {
+      return new Response("loaderio-d4bbbe4b1594a62dae3a00dbee1ee64b");
+    }
   }
 
   if (request.method !== "POST") {

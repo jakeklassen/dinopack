@@ -1,12 +1,12 @@
+import { Bin } from "lib/3d/bin.ts";
+import { Item } from "lib/3d/item.ts";
+import { Packer } from "lib/3d/packer.ts";
+import { getRemoteAddress } from "lib/utils/get-remote-address.ts";
 import { MultiRegionRatelimit } from "npm:@upstash/ratelimit@0.1.5";
 import { Redis } from "npm:@upstash/redis@1.16.0";
 import "std/dotenv/load.ts";
 import { serve } from "std/http/server.ts";
 import { config } from "../config.ts";
-import { Bin } from "../lib/3d/bin.ts";
-import { Item } from "../lib/3d/item.ts";
-import { Packer } from "../lib/3d/packer.ts";
-import { getRemoteAddress } from "../lib/utils/get-remote-address.ts";
 
 const rateLimit = new MultiRegionRatelimit({
   redis: [
